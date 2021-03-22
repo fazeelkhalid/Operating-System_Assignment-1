@@ -1,20 +1,17 @@
-/*
----------------------------------------------------
----------------------------------------------------
-----This code was written on visual studio 2012----
-----Version number = 11.0 -------------------------
----------------------------------------------------
----------------------------------------------------
----------------------------------------------------
-*/
-#include<conio.h>
 #include<stdio.h>
 int stringLen(char *str){ // calculate string length
 	int i;
-	for(i = 0; str[i]!=NULL; i++);
+	for(i = 0; str[i]!='\0'; i++);
 	return i;
 }
 
+int stringSize(char* str){ // calculate string size
+	int size = 0;
+	while(str[size]!='\0'){
+		size++;
+	}
+	return size;
+}
 
 int searchInFile(FILE *fp, char*str){
 	char fChar = ' '; // store characters from file
@@ -45,17 +42,23 @@ int main() {
 	char fName[100] = {0}; // File name
 	char subStr[100];
 	int count = 0; // count how many time s string match
-	
 	//take input file path plus name
-	printf("\nEnter file name with path : ");
-	gets_s(fName,100);
 	
-	fopen_s(&fp,fName , "r"); // open file in read mode
+	printf("\nEnter file name with path : ");
+	fgets(fName,100,stdin);
+	
+	int size = stringSize(fName);
+	fName[size - 1] = '\0'; 
+	
+	fp = fopen(fName , "r"); // open file in read mode
 	
 	if (fp != NULL ) {// check is file open
 		//substring that you wan'na search
 		printf("\nstring that you want to search from file : ");
-		gets_s(subStr,100);
+		fgets(subStr,100,stdin);
+		
+		int size = stringSize(subStr);
+		subStr[size - 1] = '\0'; 
 		
 		while(searchInFile(fp,subStr)){ // is string found or untill file not read completely
 			count++;
@@ -66,6 +69,5 @@ int main() {
 		printf("\nFile not found :(");
 	}
 	fclose(fp);
-	_getch();
 	return 0;
 }

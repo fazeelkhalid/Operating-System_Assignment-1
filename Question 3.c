@@ -1,13 +1,5 @@
-/*
----------------------------------------------------
----------------------------------------------------
-----This code was written on Dev-C++ 5.11----------
----------------------------------------------------
----------------------------------------------------
-*/
-
-
 #include<stdio.h>
+#include<stdlib.h>
 
 void takeWord(FILE *fp, char *fWord){ // take just one word from file
 	int index = 0;
@@ -107,6 +99,9 @@ void reverseCharacter(FILE *fp, char *fileName){ // reverse character of whole f
 	while(!feof(fp)){
 		takeWord(fp,str);
 		reversesNonVowelChar(str);
+		
+		int size = stringSize(str); 
+		str[size] = '\0'; //remove \n from the file name
 		fputs(str,fTemp);//put string in temp file for further processing
 		fputs(" ",fTemp); // put space in file
 	}
@@ -128,6 +123,8 @@ void reverseCharacter(FILE *fp, char *fileName){ // reverse character of whole f
 	fclose(fp);
 	fclose(fTemp);
 	remove("temp.txt"); 	
+	
+	
 }
 
 int main() {
@@ -138,7 +135,10 @@ int main() {
 	
 	//take input file path plus name
 	printf("\nEnter file name with path : ");
-	gets(fName);
+	fgets(fName,100,stdin);
+	
+	int size = stringSize(fName); 
+	fName[size-1] = '\0'; //remove \n from the file name
 	
 	fp = fopen(fName , "r"); // open file in read mode
 	
