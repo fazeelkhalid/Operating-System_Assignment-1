@@ -1,37 +1,28 @@
-/*
----------------------------------------------------
----------------------------------------------------
-----This code was written on visual studio 2012----
-----Version number = 11.0 -------------------------
----------------------------------------------------
----------------------------------------------------
----------------------------------------------------
-*/
-
-#include<conio.h>
 #include<stdio.h>
 
 void enterData(char*fileName){
 	
+	char temp;
 	char data[100] = {0};//take data(name rollNumber and Email) from user
 	FILE *fp;
-	fopen_s(&fp,fileName,"a");
+	fp = fopen(fileName,"a");
 	
 	printf("Enter student Name: ");
-	gets_s(data,100);
-	fputs("\nName : ",fp);
-	fputs(data,fp); // write name in file
+	scanf("%c",&temp);
+	fgets(data,100,stdin);
+	fputs("Name : ",fp);
+	fputs(data,fp); // write rollNumber in file
 
 	printf("\nEnter student rollNumber: ");
-	gets_s(data,100);
-	fputs("\nRoll Number: ",fp);
+	fgets(data,100,stdin);
+	fputs("Roll Number: ",fp);
 	fputs(data,fp); // write rollNumber in file
 
 	printf("Enter student Email: ");
-	gets_s(data,100);
-	fputs("\nEmail: ",fp);
+	fgets(data,100,stdin);
+	fputs("Email: ",fp);
 	fputs(data,fp); // write rollNumber in file
-	fputs("\n",fp);	
+		
 	fclose(fp);
 }
 
@@ -39,7 +30,7 @@ int totalStudents(char*fileName){
 	char fChar = ' ';// take character from file for further processing
 	int size =0;// count total number of rows
 	FILE *fp;
-	fopen_s(&fp,fileName,"r");
+	fp = fopen(fileName,"r");
 	
 	while(fChar != EOF){
 		fChar = fgetc(fp);
@@ -68,11 +59,11 @@ void PrintStudentRecord(char*fileName){
 	int size =0;// count total number of rows
 	char data[100];//store student name,rollNumber and email from file
 	FILE *fp;
-	fopen_s(&fp,fileName,"r");
+	fp = fopen(fileName,"r");
 	
 	while(studentNumber <0 || studentNumber >= totalStudents(fileName)){
 		printf("Enter student number whose record you want to see: ");
-		scanf_s("%d",&studentNumber);
+		scanf("%d",&studentNumber);
 	}
 	
 	//check which student record is required
@@ -102,12 +93,12 @@ void deleteStudentRecord(char *fileName){
 	char data[100];//store student name,rollNumber and email from file
 	FILE *fp; // actual File
 	FILE *fT; // temp File or empty File
-	fopen_s(&fp,fileName,"r");
-	fopen_s(&fT,"temp.txt","w");
+	fp = fopen(fileName,"r");
+	fT = fopen("temp.txt","w");
 
 	while(studentNumber <0 || studentNumber >= totalStudents(fileName)){
 		printf("Enter student number whose record you want to delete: ");
-		scanf_s("%d",&studentNumber);
+		scanf("%d",&studentNumber);
 	}
 
 	while(fChar != EOF){ // untill file not null copy all data of actual file except deleted one
@@ -128,8 +119,8 @@ void deleteStudentRecord(char *fileName){
 
 
 	//Now move data from temp file to the actual file
-	fopen_s(&fp,fileName,"w");
-	fopen_s(&fT,"temp.txt","r");
+	fp = fopen(fileName,"w");
+	fT = fopen("temp.txt","r");
 
 	fChar = ' ';// reset variable
 	while(fChar!=EOF){
@@ -152,9 +143,8 @@ int menu(){
 	
 	while(operation<0 || operation >=4){ // take opetion from user
 		printf("\n....> Select opetion <....\n");
-		operation = _getche() - 48;
+		scanf("%d",&operation);
 		printf("\n\n");
-		_getch(); // wait for pressing of any key
 	}
 
 	return operation;
